@@ -64,9 +64,10 @@ export function prepareElectricUrl(request: Request, tableName: string): string 
 	url.searchParams.set("table", tableName)
 
 	// Add Electric Cloud auth if configured (server-side only, never exposed to browser)
-	if (process.env.ELECTRIC_SOURCE_ID && process.env.ELECTRIC_SECRET) {
+	const secret = process.env.ELECTRIC_SECRET || process.env.ELECTRIC_SOURCE_SECRET
+	if (process.env.ELECTRIC_SOURCE_ID && secret) {
 		url.searchParams.set("source_id", process.env.ELECTRIC_SOURCE_ID)
-		url.searchParams.set("secret", process.env.ELECTRIC_SECRET)
+		url.searchParams.set("secret", secret)
 	}
 
 	return url.toString()
